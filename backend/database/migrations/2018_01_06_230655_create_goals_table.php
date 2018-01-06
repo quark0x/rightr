@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateGoalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('userId');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->integer('profilePicId')->unsigned()->nullable();
-            $table->rememberToken();
+        Schema::create("goals", function(Blueprint $table){
+            $table->increments("goalId");
+            $table->integer("userId")->unsigned();
+            $table->string("value");
             $table->timestamps();
             $table->softDeletes();
+            
+            $table->foreign("userId")->references("userId")->on("users")->onDelete("cascade");
         });
     }
 
@@ -32,6 +31,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists("goals");
     }
 }
